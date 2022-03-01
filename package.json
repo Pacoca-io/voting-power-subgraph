@@ -1,0 +1,23 @@
+{
+  "name": "voting-power",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy pacoca-io/voting-power --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ --debug",
+    "create-local": "graph create --node http://localhost:8020/ Pacoca-io/pacoca-subgraph",
+    "remove-local": "graph remove --node http://localhost:8020/ Pacoca-io/pacoca-subgraph",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 Pacoca-io/pacoca-subgraph"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.27.0",
+    "@graphprotocol/graph-ts": "0.24.1",
+    "ethers": "^5.5.4"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.5",
+    "@nomiclabs/hardhat-waffle": "^2.0.2",
+    "dotenv": "^16.0.0",
+    "hardhat": "^2.8.4"
+  }
+}
