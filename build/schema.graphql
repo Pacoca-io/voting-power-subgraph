@@ -1,9 +1,0 @@
-type User @entity {
-  id: ID! # address
-  balance: BigDecimal! # uint256
-}
-
-type AllUsers @entity {
-  id: ID!
-  addresses: [String!]!
-}
