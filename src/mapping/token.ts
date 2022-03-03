@@ -1,21 +1,25 @@
-import { Address } from "@graphprotocol/graph-ts";
 import { Transfer } from "../../generated/Pacoca/Pacoca";
 import { VotingPower } from "../../generated/VotingPower/VotingPower";
-import { setUser, VOTING_POWER_ADDRESS, toDecimal } from "../helpers";
+import {
+  setUser,
+  VOTING_POWER_ADDRESS,
+  toDecimal,
+  toAddress,
+  checkAddressBlackList,
+} from "../helpers";
 
 export function handleTokenTransfer(event: Transfer): void {
-  const votingPower = VotingPower.bind(
-    Address.fromString(VOTING_POWER_ADDRESS)
-  );
+  const votingPower = VotingPower.bind(toAddress(VOTING_POWER_ADDRESS));
 
-  setUser(
-    event.params.from.toHexString(),
-    toDecimal(votingPower.votingPower(event.params.from))
-  );
+  if(!checkAddressBlackList(event.params.from))
+    setUser(
+      event.params.from.toHexString(),
+      toDecimal(votingPower.votingPower(event.params.from))
+    );
 
-
-  setUser(
-    event.params.to.toHexString(),
-    toDecimal(votingPower.votingPower(event.params.to))
-  );
+  if(!checkAddressBlackList(event.params.to))
+    setUser(
+      event.params.to.toHexString(),
+      toDecimal(votingPower.votingPower(event.params.to))
+    );
 }
