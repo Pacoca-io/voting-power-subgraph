@@ -53,29 +53,6 @@ dataSources:
           handler: handleVaultWithdraw
       file: ./src/mapping/vault.ts
   - kind: ethereum
-    name: VotingPower
-    network: bsc # TODO: change the network to bsc
-    source:
-      address: "0xD0CEafa5C8CB601fD0528E344a0F769e6De7C171"
-      abi: VotingPower
-      startBlock: 9743941
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.5
-      language: wasm/assemblyscript
-      entities:
-        - PacocaPairAdded
-        - PacocaPairRemoved
-      abis:
-        - name: VotingPower
-          file: ./abis/VotingPower.json
-      eventHandlers:
-        - event: PacocaPairAdded(uint256)
-          handler: handlePairAdded
-        - event: PacocaPairRemoved(uint256)
-          handler: handlePairRemoved
-      file: ./src/mapping/voting-power.ts
-  - kind: ethereum
     name: Pacoca
     network: bsc # TODO: change the network to bsc
     source:
