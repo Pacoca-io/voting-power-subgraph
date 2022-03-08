@@ -4,7 +4,7 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy pacoca-io/voting-power-v3 --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ --debug",
+    "deploy": "graph deploy pacoca-io/voting-power --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ --debug",
     "create-local": "graph create --node http://localhost:8020/ Pacoca-io/pacoca-subgraph",
     "remove-local": "graph remove --node http://localhost:8020/ Pacoca-io/pacoca-subgraph",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 Pacoca-io/pacoca-subgraph"
