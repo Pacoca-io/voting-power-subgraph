@@ -1,6 +1,12 @@
-import { Address, BigInt, BigDecimal, store, log } from "@graphprotocol/graph-ts";
+import {
+  Address,
+  BigInt,
+  BigDecimal,
+  store,
+  log,
+} from "@graphprotocol/graph-ts";
 import { VotingPower } from "../../generated/VotingPower/VotingPower";
-import { User, AllUsers } from "../../generated/schema";
+import { User } from "../../generated/schema";
 
 export const VOTING_POWER_ADDRESS =
   "0xd0ceafa5c8cb601fd0528e344a0f769e6de7c171";
@@ -16,53 +22,30 @@ const ADDRESS_BLACKLIST = [
   toAddress("0xd0ceeacfee90aa1371e7ebb8df7ca9efb77d091d"), // TIMELOCK
 ];
 
-export default function setUser(address: string, balance: BigDecimal): void {
+export default function setUser(
+  address: string,
+  votingPower: BigDecimal,
+  autoPacocaShares: BigDecimal | null,
+  autoPacocaPricePerShare: BigDecimal | null
+): void {
   let user = User.load(address);
 
   if (!user) {
     user = new User(address);
-    pushUser(address);
+
+    // AssemblyScript doesn't accept null values
+    user.autoPacocaShares = BigDecimal.fromString("0");
+    user.autoPacocaPricePerShare = BigDecimal.fromString("0");
   }
 
-  if (balance.equals(BD_ZERO)) {
-    store.remove('User', address);
-  } else {
-    user.balance = balance;
-    user.save();
-  }
-}
+  user.votingPower = votingPower;
 
-export function updateAllUsers(votingPower: VotingPower): void {
-  const users = AllUsers.load(USERS_ID);
+  if (autoPacocaShares !== null) user.autoPacocaShares = autoPacocaShares;
 
-  if (!users) return;
+  if (autoPacocaPricePerShare !== null)
+    user.autoPacocaPricePerShare = autoPacocaPricePerShare;
 
-  for (let i = 0; i < users.addresses.length; i++) {
-
-    const address = toAddress(users.addresses[i]);
-
-    if (User.load(address.toHexString())) {
-      setUser(users.addresses[i], toDecimal(votingPower.votingPower(address)));
-    }
-  }
-}
-
-function pushUser(address: string): void {
-  let users = AllUsers.load(USERS_ID);
-
-  if (!users) {
-    users = new AllUsers(USERS_ID);
-  }
-
-  let addresses = users.addresses;
-  addresses.push(address);
-  users.addresses = addresses;
-  users.save();
-
-  log.debug(
-    'New user created: | Address: {} | Users Lenght: {}',
-    [address, `${users.addresses.length}`]
-  );
+  user.save();
 }
 
 export function checkAddressBlackList(address: Address): boolean {
