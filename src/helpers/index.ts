@@ -1,6 +1,12 @@
-import { Address, BigInt, BigDecimal, store, log } from "@graphprotocol/graph-ts";
+import {
+  Address,
+  BigInt,
+  BigDecimal,
+  store,
+  log,
+} from "@graphprotocol/graph-ts";
 import { VotingPower } from "../../generated/VotingPower/VotingPower";
-import { User, AllUsers } from "../../generated/schema";
+import { User } from "../../generated/schema";
 
 export const VOTING_POWER_ADDRESS =
   "0xd0ceafa5c8cb601fd0528e344a0f769e6de7c171";
@@ -21,48 +27,14 @@ export default function setUser(address: string, balance: BigDecimal): void {
 
   if (!user) {
     user = new User(address);
-    pushUser(address);
   }
 
   if (balance.equals(BD_ZERO)) {
-    store.remove('User', address);
+    store.remove("User", address);
   } else {
     user.balance = balance;
     user.save();
   }
-}
-
-export function updateAllUsers(votingPower: VotingPower): void {
-  const users = AllUsers.load(USERS_ID);
-
-  if (!users) return;
-
-  for (let i = 0; i < users.addresses.length; i++) {
-
-    const address = toAddress(users.addresses[i]);
-
-    if (User.load(address.toHexString())) {
-      setUser(users.addresses[i], toDecimal(votingPower.votingPower(address)));
-    }
-  }
-}
-
-function pushUser(address: string): void {
-  let users = AllUsers.load(USERS_ID);
-
-  if (!users) {
-    users = new AllUsers(USERS_ID);
-  }
-
-  let addresses = users.addresses;
-  addresses.push(address);
-  users.addresses = addresses;
-  users.save();
-
-  log.debug(
-    'New user created: | Address: {} | Users Lenght: {}',
-    [address, `${users.addresses.length}`]
-  );
 }
 
 export function checkAddressBlackList(address: Address): boolean {
