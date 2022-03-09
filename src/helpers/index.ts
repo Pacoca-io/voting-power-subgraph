@@ -22,19 +22,29 @@ const ADDRESS_BLACKLIST = [
   toAddress("0xd0ceeacfee90aa1371e7ebb8df7ca9efb77d091d"), // TIMELOCK
 ];
 
-export default function setUser(address: string, balance: BigDecimal): void {
+export default function setUser(
+  address: string,
+  balance: BigDecimal,
+  autoPacocaShares: BigDecimal | null,
+  autoPacocaPricePerShare: BigDecimal | null
+): void {
   let user = User.load(address);
 
   if (!user) {
     user = new User(address);
+    user.autoPacocaShares = BigDecimal.fromString('0')
+    user.autoPacocaPricePerShare = BigDecimal.fromString('0')
   }
 
-  if (balance.equals(BD_ZERO)) {
-    store.remove("User", address);
-  } else {
-    user.balance = balance;
-    user.save();
-  }
+  user.balance = balance;
+
+  if (autoPacocaShares !== null)
+    user.autoPacocaShares = autoPacocaShares
+
+  if (autoPacocaPricePerShare !== null)
+    user.autoPacocaPricePerShare = autoPacocaPricePerShare
+
+  user.save();
 }
 
 export function checkAddressBlackList(address: Address): boolean {

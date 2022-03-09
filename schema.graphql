@@ -1,4 +1,6 @@
 type User @entity {
   id: ID! # address
   balance: BigDecimal! # uint256
+  autoPacocaShares: BigDecimal!
+  autoPacocaPricePerShare: BigDecimal!
 }

@@ -8,7 +8,7 @@ dataSources:
     source:
       address: "0x55410D946DFab292196462ca9BE9f3E4E4F337Dd"
       abi: PacocaFarm
-      startBlock: 9743941
+      startBlock: 9743922
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -33,7 +33,7 @@ dataSources:
     source:
       address: "0x16205528A8F7510f4421009a7654835b541bb1b9"
       abi: PacocaVault
-      startBlock: 9743941
+      startBlock: 9743922
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -58,7 +58,7 @@ dataSources:
     source:
       address: "0x55671114d774ee99d653d6c12460c780a67f1d18"
       abi: Pacoca
-      startBlock: 9743941
+      startBlock: 9743922
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5

@@ -9,23 +9,27 @@ import {
 } from "../helpers";
 
 export function handleFarmDeposit(event: Deposit): void {
-  if (checkAddressBlackList(event.params.user)) return
+  if (checkAddressBlackList(event.params.user)) return;
 
   const votingPower = VotingPower.bind(toAddress(VOTING_POWER_ADDRESS));
 
   setUser(
     event.params.user.toHexString(),
-    toDecimal(votingPower.votingPower(event.params.user))
+    toDecimal(votingPower.votingPower(event.params.user)),
+    null,
+    null
   );
 }
 
 export function handleFarmWithdraw(event: Withdraw): void {
-  if (checkAddressBlackList(event.params.user)) return
+  if (checkAddressBlackList(event.params.user)) return;
 
   const votingPower = VotingPower.bind(toAddress(VOTING_POWER_ADDRESS));
 
   setUser(
     event.params.user.toHexString(),
-    toDecimal(votingPower.votingPower(event.params.user))
+    toDecimal(votingPower.votingPower(event.params.user)),
+    null,
+    null
   );
 }
